@@ -1,0 +1,33 @@
+.mainButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 0.5rem;
+    color: var(--foreground);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.selected {
+    background-color: #533614;
+    color: var(--on-primary);
+}
+
+.unselected {
+    background-color: transparent;
+    color: var(--foreground);
+}
+
+.mainButton:hover {
+    background-color: #533614;
+}
+
+.categoryText {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin: 0;
+}

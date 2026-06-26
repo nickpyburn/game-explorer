@@ -10,7 +10,7 @@ import SideBar from './SideBar';
 function MainDashboard() {
 
     const [gameQuery, setGameQuery] = useState<GameQuery>({
-        genre: null,
+        genre: "Home",
         platform: null,
         sortOrder: "-added", // default to popular
         searchText: "",
@@ -26,6 +26,14 @@ function MainDashboard() {
         fetchGames({ params, gameQuery, setLoading, setGames, setError });
     }, [gameQuery]);
 
+    const handleSetCategory = (category: string) => {
+        // TODO custom logic where the category is not the samne as the query (new releases, best of the year, etc)
+        setGameQuery((prevQuery) => ({
+            ...prevQuery,
+            genre: category,
+        }));
+    };
+
     return (
         // <div>
         //     {loading && <p>Loading...</p>}
@@ -34,7 +42,7 @@ function MainDashboard() {
         // </div>
         <div className={styles.mainDiv}>
             <div style={{ gridColumn: "1", gridRow: "1" }}>
-                <SideBar />
+                <SideBar selectedCategory={gameQuery.genre || ""} onCategorySelected={handleSetCategory} />
             </div>
         </div>
     )
