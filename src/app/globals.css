@@ -1,7 +1,9 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #18191e;
+  --foreground: #ffffff;
 }
+
+/* TODO Dark mode */
 
 @media (prefers-color-scheme: dark) {
   :root {
