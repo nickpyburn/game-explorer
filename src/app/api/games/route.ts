@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 
     const targetUrl = new URL('https://api.rawg.io/api/games');
     targetUrl.searchParams.append('key', apiKey);
-    targetUrl.searchParams.append('page_size', '2'); // only return 2 for now
+    targetUrl.searchParams.append('page_size', '20');
 
     if (search) targetUrl.searchParams.append('search', search);
     if (genres) targetUrl.searchParams.append('genres', genres);
