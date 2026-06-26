@@ -6,6 +6,7 @@ import { Game } from '../types/rawg'
 import { GameQuery } from '../types/app';
 import {fetchGames} from '../lib/utils';
 import SideBar from './SideBar';
+import GamesDisplay from './GamesDisplay';
 
 function MainDashboard() {
 
@@ -41,8 +42,10 @@ function MainDashboard() {
         //     {!loading && !error && <h1>{JSON.stringify(games, null, 2)}</h1>}
         // </div>
         <div className={styles.mainDiv}>
-            <div style={{ gridColumn: "1", gridRow: "1" }}>
-                <SideBar selectedCategory={gameQuery.genre || ""} onCategorySelected={handleSetCategory} />
+            <SideBar selectedCategory={gameQuery.genre || ""} onCategorySelected={handleSetCategory} />
+            <GamesDisplay games={games} />
+            <div>
+
             </div>
         </div>
     )
