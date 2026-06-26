@@ -1,5 +1,6 @@
 :root {
   --background: #18191e;
+  --background-alt: #242730;
   --foreground: #ffffff;
 }
 
@@ -8,6 +9,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
+    --background-alt: #1a1a1a;
     --foreground: #ededed;
   }
 }

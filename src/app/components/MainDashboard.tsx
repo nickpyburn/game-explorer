@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState } from 'react'
-import { Game } from './types/rawg'
-import { GameQuery } from './types/app';
-import {fetchGames} from './lib/utils';
+import styles from './MainDashboard.module.css'
+import { Game } from '../types/rawg'
+import { GameQuery } from '../types/app';
+import {fetchGames} from '../lib/utils';
+import SideBar from './SideBar';
 
 function MainDashboard() {
 
@@ -30,8 +32,10 @@ function MainDashboard() {
         //     {error && <p>Error: {error}</p>}
         //     {!loading && !error && <h1>{JSON.stringify(games, null, 2)}</h1>}
         // </div>
-        <div>
-            hello
+        <div className={styles.mainDiv}>
+            <div style={{ gridColumn: "1", gridRow: "1" }}>
+                <SideBar />
+            </div>
         </div>
     )
 }

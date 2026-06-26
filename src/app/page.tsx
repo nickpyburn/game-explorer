@@ -1,9 +1,9 @@
 import React, { JSX } from "react";
-import MainDashboard from "./MainDashboard";
+import MainDashboard from "./components/MainDashboard";
 
 export default function Home(): JSX.Element {
   return (
-    <main style={{ padding: "4rem" }}>
+    <main>
       <MainDashboard />
     </main>
   );
