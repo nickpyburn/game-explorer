@@ -1,0 +1,43 @@
+.mainDiv {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    opacity: 0.8;
+    cursor: default;
+}
+
+.green {
+    background-color: #6c3;
+    color: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+}
+.amber {
+    background-color: #ffbf00;
+    color: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+}
+.red {
+    background-color: #ff4c4c;
+    color: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+}
+
+.scoreText {
+    font-size: 1.25rem;
+    margin: 0;
+    padding: 0.25rem;
+}

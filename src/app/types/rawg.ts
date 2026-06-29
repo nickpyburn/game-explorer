@@ -9,6 +9,7 @@ export interface ParentPlatform {
 }
 
 export interface Game {
+    metacritic: number;
     id: number;
     slug: string;
     name: string;
