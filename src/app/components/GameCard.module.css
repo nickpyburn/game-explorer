@@ -27,3 +27,17 @@
     overflow: hidden;
     white-space: nowrap;
 }
+
+.platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0 1rem 1rem 1rem;
+}
+
+.platforms span {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
