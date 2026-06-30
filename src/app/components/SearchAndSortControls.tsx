@@ -1,11 +1,14 @@
-import React from 'react'
 import styles from './SearchAndSortControls.module.css'
 import SearchBar from './SearchBar'
 
-function SearchAndSortControls() {
+interface SearchAndSortControlsProps {
+  setSearchText: (text: string) => void;
+}
+
+function SearchAndSortControls({ setSearchText }: Readonly<SearchAndSortControlsProps>) {
   return (
     <div className={styles.mainGrid}>
-        <SearchBar />
+        <SearchBar setSearchText={setSearchText} />
     </div>
   )
 }

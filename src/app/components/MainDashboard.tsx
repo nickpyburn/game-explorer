@@ -24,12 +24,12 @@ function MainDashboard() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const params = new URLSearchParams();
-        fetchGames({ params, gameQuery, setLoading, setGames, setError });
-    }, [gameQuery]);
+        fetchGames({ gameQuery, setLoading, setGames, setError });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [gameQuery.searchText, gameQuery.genre, gameQuery.platform, gameQuery.sortOrder, gameQuery.page]);
 
     const handleSetCategory = (category: string) => {
-        // TODO custom logic where the category is not the samne as the query (new releases, best of the year, etc)
+        // TODO custom logic where the category is not the same as the query (new releases, best of the year, etc)
         setGameQuery((prevQuery) => ({
             ...prevQuery,
             genre: category,
@@ -44,7 +44,7 @@ function MainDashboard() {
         // </div>
         <div className={styles.mainGrid}>
             <SideBar selectedCategory={gameQuery.genre || ""} onCategorySelected={handleSetCategory} />
-            <SearchAndSortControls />
+            <SearchAndSortControls setSearchText={(text) => setGameQuery((prevQuery) => ({ ...prevQuery, searchText: text }))} />
             <GamesDisplay games={games} />
             <div>
 
