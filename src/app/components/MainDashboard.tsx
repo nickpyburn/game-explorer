@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import styles from './MainDashboard.module.css'
 import { Game } from '../types/rawg'
 import { GameQuery } from '../types/app';
-import {fetchGames} from '../lib/utils';
+import { fetchGames } from '../lib/utils';
 import SideBar from './SideBar';
 import GamesDisplay from './GamesDisplay';
 import SearchAndSortControls from './SearchAndSortControls';
@@ -25,7 +25,7 @@ function MainDashboard() {
 
     useEffect(() => {
         fetchGames({ gameQuery, setLoading, setGames, setError });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameQuery.searchText, gameQuery.genre, gameQuery.platform, gameQuery.sortOrder, gameQuery.page]);
 
     const handleSetCategory = (category: string) => {
@@ -35,6 +35,14 @@ function MainDashboard() {
             genre: category,
         }));
     };
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p>Error: {error}</p>;
+    }
 
     return (
         // <div>
