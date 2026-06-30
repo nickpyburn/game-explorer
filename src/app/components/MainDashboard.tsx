@@ -7,6 +7,7 @@ import { GameQuery } from '../types/app';
 import {fetchGames} from '../lib/utils';
 import SideBar from './SideBar';
 import GamesDisplay from './GamesDisplay';
+import SearchAndSortControls from './SearchAndSortControls';
 
 function MainDashboard() {
 
@@ -41,8 +42,9 @@ function MainDashboard() {
         //     {error && <p>Error: {error}</p>}
         //     {!loading && !error && <h1>{JSON.stringify(games, null, 2)}</h1>}
         // </div>
-        <div className={styles.mainDiv}>
+        <div className={styles.mainGrid}>
             <SideBar selectedCategory={gameQuery.genre || ""} onCategorySelected={handleSetCategory} />
+            <SearchAndSortControls />
             <GamesDisplay games={games} />
             <div>
 

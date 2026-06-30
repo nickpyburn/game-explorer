@@ -7,7 +7,7 @@
     background-color: var(--background-alt);
     padding: 0.75rem;
     grid-column: 1;
-    grid-row: 1;
+    grid-row: 1 / span 2;
 }
 
 .subtitle {
