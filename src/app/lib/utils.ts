@@ -10,8 +10,7 @@ export const fetchGames = async ({ gameQuery, setLoading, setGames, setError }: 
     try {
         setLoading(true);
         const params = new URLSearchParams();
-
-        // Build the URL parameters cleanly
+        
         if (gameQuery.searchText) params.append('search', gameQuery.searchText);
         if (gameQuery.genre && gameQuery.genre !== "Home") params.append('genres', gameQuery.genre.toLowerCase());
         if (gameQuery.platform) params.append('parent_platforms', gameQuery.platform.toString());
