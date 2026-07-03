@@ -14,7 +14,7 @@ function MainDashboard() {
     const [gameQuery, setGameQuery] = useState<GameQuery>({
         genre: "Home",
         platform: null,
-        sortOrder: "-added", // default to popular
+        sortOrder: "-added", // default to most recently added
         searchText: "",
         page: 1,
     });
@@ -24,6 +24,7 @@ function MainDashboard() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        console.log("Fetching games with query:", gameQuery);
         fetchGames({ gameQuery, setLoading, setGames, setError });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameQuery.searchText, gameQuery.genre, gameQuery.platform, gameQuery.sortOrder, gameQuery.page]);
@@ -45,14 +46,13 @@ function MainDashboard() {
     }
 
     return (
-        // <div>
-        //     {loading && <p>Loading...</p>}
-        //     {error && <p>Error: {error}</p>}
-        //     {!loading && !error && <h1>{JSON.stringify(games, null, 2)}</h1>}
-        // </div>
         <div className={styles.mainGrid}>
             <SideBar selectedCategory={gameQuery.genre || ""} onCategorySelected={handleSetCategory} />
-            <SearchAndSortControls setSearchText={(text) => setGameQuery((prevQuery) => ({ ...prevQuery, searchText: text }))} />
+            <SearchAndSortControls
+                setSearchText={(text) => setGameQuery((prevQuery) => ({ ...prevQuery, searchText: text }))}
+                setSortOption={(option) => setGameQuery((prevQuery) => ({ ...prevQuery, sortOrder: option }))}
+                sortOption={gameQuery.sortOrder}
+            />
             <GamesDisplay games={games} />
             <div>
 

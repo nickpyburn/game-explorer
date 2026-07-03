@@ -1,0 +1,13 @@
+.dropDown {
+  position: relative;
+  display: inline-block;
+  background-color: var(--background-alt);
+  border-radius: 0.5rem;
+  border: 0px solid transparent;
+  color: var(--text-primary);
+  padding: 0.5rem;
+  grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: flex-start;
+}
