@@ -1,7 +1,8 @@
 export interface GameQuery {
-    genre: string | null;
-    platform: string | null;
-    sortOrder: string;
-    searchText: string;
-    page: number;
+  discoverMode: "Home" | "NewReleases" | "BestOfYear";
+  genres: string[];
+  parentPlatforms: number[];
+  sortOrder: string;
+  searchText: string;
+  page: number;
 }

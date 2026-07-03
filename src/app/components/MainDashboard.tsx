@@ -9,12 +9,18 @@ import SideBar from './SideBar';
 import GamesDisplay from './GamesDisplay';
 import SearchAndSortControls from './SearchAndSortControls';
 
-function MainDashboard() {
+const PLATFORM_ID_MAP: Record<string, number> = {
+    "PC": 1,
+    "Playstation": 2,
+    "XBox": 3,
+};
 
+function MainDashboard() {
     const [gameQuery, setGameQuery] = useState<GameQuery>({
-        genre: "Home",
-        platform: null,
-        sortOrder: "-added", // default to most recently added
+        discoverMode: "Home",
+        genres: [],
+        parentPlatforms: [],
+        sortOrder: "-added",
         searchText: "",
         page: 1,
     });
@@ -26,39 +32,56 @@ function MainDashboard() {
     useEffect(() => {
         console.log("Fetching games with query:", gameQuery);
         fetchGames({ gameQuery, setLoading, setGames, setError });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [gameQuery.searchText, gameQuery.genre, gameQuery.platform, gameQuery.sortOrder, gameQuery.page]);
+    }, [gameQuery.searchText, JSON.stringify(gameQuery.genres), JSON.stringify(gameQuery.parentPlatforms), gameQuery.sortOrder, gameQuery.page, gameQuery.discoverMode]);
 
     const handleSetCategory = (category: string) => {
-        // TODO custom logic where the category is not the same as the query (new releases, best of the year, etc)
-        setGameQuery((prevQuery) => ({
-            ...prevQuery,
-            genre: category,
-        }));
+        setGameQuery((prevQuery) => {
+            if (category === "Home") {
+                // reset genres, platforms and page when switching to Home
+                return { ...prevQuery, discoverMode: "Home", genres: [], parentPlatforms: [], page: 1 };
+            }
+            if (category === "New Releases") {
+                return { ...prevQuery, discoverMode: "NewReleases", page: 1 };
+            }
+            if (category === "Best of the Year") {
+                return { ...prevQuery, discoverMode: "BestOfYear", page: 1 };
+            }
+
+            if (category in PLATFORM_ID_MAP) {
+                const targetId = PLATFORM_ID_MAP[category];
+                const exists = prevQuery.parentPlatforms.includes(targetId);
+                const updatedPlatforms = exists
+                    ? prevQuery.parentPlatforms.filter(id => id !== targetId)
+                    : [...prevQuery.parentPlatforms, targetId];
+                return { ...prevQuery, parentPlatforms: updatedPlatforms, page: 1 };
+            }
+
+            const genreSlug = category.toLowerCase();
+            const exists = prevQuery.genres.includes(genreSlug);
+            const updatedGenres = exists
+                ? prevQuery.genres.filter(g => g !== genreSlug)
+                : [...prevQuery.genres, genreSlug];
+
+            return { ...prevQuery, genres: updatedGenres, page: 1 };
+        });
     };
 
-    if (loading) {
-        return <p>Loading...</p>;
-    }
-
-    if (error) {
-        return <p>Error: {error}</p>;
-    }
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
 
     return (
         <div className={styles.mainGrid}>
-            <SideBar selectedCategory={gameQuery.genre || ""} onCategorySelected={handleSetCategory} />
-            <SearchAndSortControls
-                setSearchText={(text) => setGameQuery((prevQuery) => ({ ...prevQuery, searchText: text }))}
-                setSortOption={(option) => setGameQuery((prevQuery) => ({ ...prevQuery, sortOrder: option }))}
-                sortOption={gameQuery.sortOrder}
-            />
-            <GamesDisplay games={games} />
-            <div>
-
+            <SideBar gameQuery={gameQuery} onCategorySelected={handleSetCategory} />
+            <div className="d-flex flex-column flex-grow-1 overflow-hidden">
+                <SearchAndSortControls
+                    setSearchText={(text) => setGameQuery((prevQuery) => ({ ...prevQuery, searchText: text, page: 1 }))}
+                    setSortOption={(option) => setGameQuery((prevQuery) => ({ ...prevQuery, sortOrder: option, page: 1 }))}
+                    sortOption={gameQuery.sortOrder}
+                />
+                <GamesDisplay games={games} />
             </div>
         </div>
     )
 }
 
-export default MainDashboard
+export default MainDashboard;
