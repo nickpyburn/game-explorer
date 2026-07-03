@@ -24,7 +24,7 @@ function GameCard({ game }: Readonly<GameCardProps>) {
       </div>
 
       <div className="p-3 d-flex flex-column flex-grow-1 justify-content-between">
-        <h2 className={styles.gameTitle}>{game.name}</h2>
+        <h2 className={styles.gameTitle} title={game.name}>{game.name}</h2>
         <div className="d-flex gap-2 text-secondary fs-5 mt-2">
           {game.parent_platforms?.map(platform => {
             const parentPlatform = parentPlatforms.find(p => p.id === platform.platform.id);
