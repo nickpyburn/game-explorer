@@ -5,15 +5,10 @@ import styles from './MainDashboard.module.css'
 import { Game } from '../types/rawg'
 import { GameQuery } from '../types/app';
 import { fetchGames } from '../lib/utils';
+import { parentPlatforms } from '../lib/ParentPlatforms';
 import SideBar from './SideBar';
 import GamesDisplay from './GamesDisplay';
 import SearchAndSortControls from './SearchAndSortControls';
-
-const PLATFORM_ID_MAP: Record<string, number> = {
-    "PC": 1,
-    "Playstation": 2,
-    "XBox": 3,
-};
 
 function MainDashboard() {
     const [gameQuery, setGameQuery] = useState<GameQuery>({
@@ -37,7 +32,6 @@ function MainDashboard() {
     const handleSetCategory = (category: string) => {
         setGameQuery((prevQuery) => {
             if (category === "Home") {
-                // reset genres, platforms and page when switching to Home
                 return { ...prevQuery, discoverMode: "Home", genres: [], parentPlatforms: [], page: 1 };
             }
             if (category === "New Releases") {
@@ -47,12 +41,18 @@ function MainDashboard() {
                 return { ...prevQuery, discoverMode: "BestOfYear", page: 1 };
             }
 
-            if (category in PLATFORM_ID_MAP) {
-                const targetId = PLATFORM_ID_MAP[category];
+            const matchedPlatform = parentPlatforms.find(
+                (p) => p.name.toLowerCase() === category.toLowerCase()
+            );
+
+            if (matchedPlatform) {
+                const targetId = matchedPlatform.id;
                 const exists = prevQuery.parentPlatforms.includes(targetId);
+
                 const updatedPlatforms = exists
                     ? prevQuery.parentPlatforms.filter(id => id !== targetId)
                     : [...prevQuery.parentPlatforms, targetId];
+
                 return { ...prevQuery, parentPlatforms: updatedPlatforms, page: 1 };
             }
 
@@ -65,7 +65,6 @@ function MainDashboard() {
             return { ...prevQuery, genres: updatedGenres, page: 1 };
         });
     };
-
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
@@ -76,7 +75,17 @@ function MainDashboard() {
                 <SearchAndSortControls
                     setSearchText={(text) => setGameQuery((prevQuery) => ({ ...prevQuery, searchText: text, page: 1 }))}
                     setSortOption={(option) => setGameQuery((prevQuery) => ({ ...prevQuery, sortOrder: option, page: 1 }))}
-                    sortOption={gameQuery.sortOrder}
+                    gameQuery={gameQuery}                    
+                    onRemoveGenre={(targetGenre) => setGameQuery((prev) => ({
+                        ...prev,
+                        genres: prev.genres.filter(g => g !== targetGenre),
+                        page: 1
+                    }))}                    
+                    onRemovePlatform={(targetId) => setGameQuery((prev) => ({
+                        ...prev,
+                        parentPlatforms: prev.parentPlatforms.filter(id => id !== targetId),
+                        page: 1
+                    }))}
                 />
                 <GamesDisplay games={games} />
             </div>

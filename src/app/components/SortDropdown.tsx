@@ -13,8 +13,8 @@ function SortDropdown({ sortOption, onSortChange }: Readonly<SortDropdownProps>)
       <option value="name">Sort by: Name (Ascending)</option>
       <option value="released">Sort by: Release Date (Ascending)</option>
       <option value="-released">Sort by: Release Date (Descending)</option>
-      <option value="-added">Sort by: Date Added (Descending)</option>
-      <option value="added">Sort by: Date Added (Ascending)</option>
+      <option value="-added">Sort by: Popularity (Descending)</option>
+      <option value="added">Sort by: Popularity (Ascending)</option>
       <option value="-created">Sort by: Creation Date (Descending)</option>
       <option value="created">Sort by: Creation Date (Ascending)</option>
       <option value="-updated">Sort by: Last Updated (Descending)</option>

@@ -1,0 +1,17 @@
+.mainDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0.75rem;
+    background-color: var(--background-alt);
+    padding: 0.25rem 0.5rem;
+}
+
+.filterText {
+    font-size: 0.875rem;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
