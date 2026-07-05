@@ -14,27 +14,25 @@ interface SearchAndSortControlsProps {
 }
 
 function SearchAndSortControls({ setSearchText, setSortOption, gameQuery, onRemoveGenre, onRemovePlatform }: Readonly<SearchAndSortControlsProps>) {
-  return(
-    <div className = { styles.controlsWrapper } >
-        < div className = { styles.topRow } >
-            <SearchBar setSearchText={setSearchText} />
-            <SortDropdown sortOption={gameQuery.sortOrder || "-added"} onSortChange={setSortOption} />
-        </div>
-
-  {/* Dedicated baseline track exclusively handles filter arrays */ }
-  < div className = { styles.filterBadgesContainer } >
-  {
-    gameQuery.genres.map((genre) => (
-      <FilterBadge key={genre} filterText={genre} onRemoveFilter={() => onRemoveGenre(genre)} />
-    ))
-  }
-{
-  gameQuery.parentPlatforms.map((platformId) => {
-    const platformName = parentPlatforms.find(p => p.id === platformId)?.name;
-    return platformName ? <FilterBadge key={platformId} filterText={platformName} onRemoveFilter={() => onRemovePlatform(platformId)} /> : null;
-  })
-}
-        </div >
+  return (
+    <div className={styles.controlsWrapper} >
+      < div className={styles.topRow} >
+        <SearchBar setSearchText={setSearchText} />
+        <SortDropdown sortOption={gameQuery.sortOrder || "-added"} onSortChange={setSortOption} />
+      </div>
+      < div className={styles.filterBadgesContainer} >
+        {
+          gameQuery.genres.map((genre) => (
+            <FilterBadge key={genre} filterText={genre} onRemoveFilter={() => onRemoveGenre(genre)} />
+          ))
+        }
+        {
+          gameQuery.parentPlatforms.map((platformId) => {
+            const platformName = parentPlatforms.find(p => p.id === platformId)?.name;
+            return platformName ? <FilterBadge key={platformId} filterText={platformName} onRemoveFilter={() => onRemovePlatform(platformId)} /> : null;
+          })
+        }
+      </div >
     </div >
   )
 }
