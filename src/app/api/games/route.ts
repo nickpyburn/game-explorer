@@ -31,7 +31,10 @@ export async function GET(request: NextRequest) {
     targetUrl.searchParams.append('key', apiKey);
     targetUrl.searchParams.append('page_size', '20');
 
-    if (search) targetUrl.searchParams.append('search', search);
+    if (search) {
+        targetUrl.searchParams.append('search', search);
+        targetUrl.searchParams.append('search_precise', 'true');
+    }
     if (genres) targetUrl.searchParams.append('genres', genres);
     if (parent_platforms) targetUrl.searchParams.append('parent_platforms', parent_platforms);
     if (ordering) targetUrl.searchParams.append('ordering', ordering);

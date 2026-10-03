@@ -1,3 +1,4 @@
+// src/app/components/MainDashboard.tsx
 "use client";
 
 import { useEffect, useState } from 'react'
@@ -25,20 +26,31 @@ function MainDashboard() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const loadGames = async () => {
+        // Debounce search input so request fires 300ms after user stops typing
+        const handler = setTimeout(async () => {
             try {
                 setLoading(true);
                 setError(null);
                 await fetchGames({ gameQuery, setGames });
-            } catch (error) {
-                setError((error as Error).message);
+            } catch (err) {
+                setError((err as Error).message);
             } finally {
                 setLoading(false);
             }
-        };
-        
-        loadGames();
-    }, [gameQuery.searchText, JSON.stringify(gameQuery.genres), JSON.stringify(gameQuery.parentPlatforms), gameQuery.sortOrder, gameQuery.page, gameQuery.discoverMode]);
+        }, 300);
+
+        // Cleanup function cancels pending timers if user types another letter before 300ms
+        return () => clearTimeout(handler);
+
+        // Clean, primitive dependency array tracking
+    }, [
+        gameQuery.searchText,
+        gameQuery.genres,
+        gameQuery.parentPlatforms,
+        gameQuery.sortOrder,
+        gameQuery.page,
+        gameQuery.discoverMode
+    ]);
 
     const handleSetCategory = (category: string) => {
         setGameQuery((prevQuery) => {
@@ -76,8 +88,6 @@ function MainDashboard() {
             return { ...prevQuery, genres: updatedGenres, page: 1 };
         });
     };
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error}</p>;
 
     return (
         <div className={styles.mainGrid}>
@@ -86,19 +96,32 @@ function MainDashboard() {
                 <SearchAndSortControls
                     setSearchText={(text) => setGameQuery((prevQuery) => ({ ...prevQuery, searchText: text, page: 1 }))}
                     setSortOption={(option) => setGameQuery((prevQuery) => ({ ...prevQuery, sortOrder: option, page: 1 }))}
-                    gameQuery={gameQuery}                    
+                    gameQuery={gameQuery}
                     onRemoveGenre={(targetGenre) => setGameQuery((prev) => ({
                         ...prev,
                         genres: prev.genres.filter(g => g !== targetGenre),
                         page: 1
-                    }))}                    
+                    }))}
                     onRemovePlatform={(targetId) => setGameQuery((prev) => ({
                         ...prev,
                         parentPlatforms: prev.parentPlatforms.filter(id => id !== targetId),
                         page: 1
                     }))}
                 />
-                <GamesDisplay games={games} />
+
+                {loading && (
+                    <div className="d-flex flex-grow-1 align-items-center justify-content-center text-white">
+                        <p className="fs-4">Searching catalog...</p>
+                    </div>
+                )}
+
+                {error && (
+                    <div className="d-flex flex-grow-1 align-items-center justify-content-center text-white">
+                        <p className="fs-4 text-danger">Error: {error}</p>
+                    </div>
+                )}
+
+                {!loading && !error && <GamesDisplay games={games} />}
             </div>
         </div>
     )
