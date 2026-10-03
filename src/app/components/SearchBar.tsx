@@ -4,11 +4,16 @@ import { useState, useEffect } from 'react';
 import styles from './SearchBar.module.css';
 
 interface SearchBarProps {
+  searchText: string;
   setSearchText: (text: string) => void;
 }
 
-function SearchBar({ setSearchText }: Readonly<SearchBarProps>) {
-  const [inputValue, setInputValue] = useState("");
+function SearchBar({ searchText, setSearchText }: Readonly<SearchBarProps>) {
+  const [inputValue, setInputValue] = useState(searchText);
+  
+  useEffect(() => {
+    setInputValue(searchText);
+  }, [searchText]);
 
   useEffect(() => {
     if (inputValue.length > 0 && inputValue.length < 3) {
@@ -17,8 +22,8 @@ function SearchBar({ setSearchText }: Readonly<SearchBarProps>) {
 
     const delayDebounceTimer = setTimeout(() => {
       setSearchText(inputValue);
-    }, 500); 
-    
+    }, 500);
+
     return () => clearTimeout(delayDebounceTimer);
   }, [inputValue, setSearchText]);
 

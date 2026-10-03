@@ -16,11 +16,11 @@ interface SearchAndSortControlsProps {
 function SearchAndSortControls({ setSearchText, setSortOption, gameQuery, onRemoveGenre, onRemovePlatform }: Readonly<SearchAndSortControlsProps>) {
   return (
     <div className={styles.controlsWrapper} >
-      < div className={styles.topRow} >
-        <SearchBar setSearchText={setSearchText} />
+      <div className={styles.topRow} >
+        <SearchBar searchText={gameQuery.searchText} setSearchText={setSearchText} />
         <SortDropdown sortOption={gameQuery.sortOrder || "-added"} onSortChange={setSortOption} />
       </div>
-      < div className={styles.filterBadgesContainer} >
+      <div className={styles.filterBadgesContainer} >
         {
           gameQuery.genres.map((genre) => (
             <FilterBadge key={genre} filterText={genre} onRemoveFilter={() => onRemoveGenre(genre)} />
@@ -32,9 +32,9 @@ function SearchAndSortControls({ setSearchText, setSortOption, gameQuery, onRemo
             return platformName ? <FilterBadge key={platformId} filterText={platformName} onRemoveFilter={() => onRemovePlatform(platformId)} /> : null;
           })
         }
-      </div >
-    </div >
+      </div>
+    </div>
   )
 }
 
-export default SearchAndSortControls
+export default SearchAndSortControls;
