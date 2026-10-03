@@ -1,17 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { mockGamesResponse } from "@/app/data/mockGames";
 
-const useMockData = false;
+const useMockData = true;
 
 export async function GET(request: NextRequest) {
-    // if Dev Mode is active, bypass RAWG entirely and return local file. Saves API credits!
-    if (useMockData) {
-        return NextResponse.json(mockGamesResponse);
-    }
 
     const { searchParams } = new URL(request.url);
-
     const search = searchParams.get('search') || '';
+
+    // if Dev Mode is active, bypass RAWG entirely and return local file. Saves API credits!
+    if (useMockData) {
+        if (!search) return NextResponse.json(mockGamesResponse); //
+
+        const filteredResults = mockGamesResponse.results.filter(game =>
+            game.name.toLowerCase().includes(search.toLowerCase())
+        );
+        return NextResponse.json({ ...mockGamesResponse, results: filteredResults });
+    }
+
+
     const genres = searchParams.get('genres') || '';
     const parent_platforms = searchParams.get('parent_platforms') || '';
     const ordering = searchParams.get('ordering') || '-added';
