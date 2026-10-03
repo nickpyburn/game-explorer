@@ -10,12 +10,16 @@ interface SearchBarProps {
 
 function SearchBar({ searchText, setSearchText }: Readonly<SearchBarProps>) {
   const [inputValue, setInputValue] = useState(searchText);
-  
+
   useEffect(() => {
     setInputValue(searchText);
   }, [searchText]);
 
   useEffect(() => {
+    if (inputValue === searchText) {
+      return;
+    }
+
     if (inputValue.length > 0 && inputValue.length < 3) {
       return;
     }
@@ -25,7 +29,7 @@ function SearchBar({ searchText, setSearchText }: Readonly<SearchBarProps>) {
     }, 500);
 
     return () => clearTimeout(delayDebounceTimer);
-  }, [inputValue, setSearchText]);
+  }, [inputValue, searchText, setSearchText]);
 
   return (
     <div className={styles.mainDiv}>

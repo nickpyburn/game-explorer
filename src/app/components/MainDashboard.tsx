@@ -1,4 +1,3 @@
-// src/app/components/MainDashboard.tsx
 "use client";
 
 import { useEffect, useState } from 'react'
@@ -24,6 +23,7 @@ function MainDashboard() {
     const [games, setGames] = useState<Game[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [hasNextPage, setHasNextPage] = useState<boolean>(true);
 
     useEffect(() => {
         // Debounce search input so request fires 300ms after user stops typing
@@ -31,7 +31,7 @@ function MainDashboard() {
             try {
                 setLoading(true);
                 setError(null);
-                await fetchGames({ gameQuery, setGames });
+                await fetchGames({ gameQuery, setGames, setHasNextPage });
             } catch (err) {
                 setError((err as Error).message);
             } finally {
@@ -121,7 +121,28 @@ function MainDashboard() {
                     </div>
                 )}
 
-                {!loading && !error && <GamesDisplay games={games} />}
+                {!loading && !error && (
+                    <div className="d-flex flex-column flex-grow-1 overflow-hidden">
+                        <GamesDisplay games={games} />
+                        <div className="d-flex justify-content-center align-items-center gap-4 py-3 mt-auto">
+                            <button
+                                className="btn btn-outline-light px-4"
+                                disabled={gameQuery.page === 1}
+                                onClick={() => setGameQuery(prev => ({ ...prev, page: Math.max(1, prev.page - 1) }))}
+                            >
+                                <i className="bi bi-chevron-left me-2"></i> Previous
+                            </button>
+                            <span className="text-secondary fs-5">Page {gameQuery.page}</span>
+                            <button
+                                className="btn btn-outline-light px-4"
+                                disabled={!hasNextPage}
+                                onClick={() => setGameQuery(prev => ({ ...prev, page: prev.page + 1 }))}
+                            >
+                                Next <i className="bi bi-chevron-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )

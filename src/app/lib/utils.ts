@@ -20,9 +20,10 @@ const getDiscoverDatesParam = (mode: "Home" | "NewReleases" | "BestOfYear"): str
     return "";
 };
 
-export const fetchGames = async ({ gameQuery, setGames }: {
+export const fetchGames = async ({ gameQuery, setGames, setHasNextPage }: {
     gameQuery: GameQuery,
     setGames: (games: Game[]) => void,
+    setHasNextPage: (hasNext: boolean) => void
 }) => {
     const params = new URLSearchParams();
 
@@ -43,4 +44,6 @@ export const fetchGames = async ({ gameQuery, setGames }: {
 
     const data = await response.json();
     setGames(data.results || []);
+
+    setHasNextPage(!!data.next);
 };
