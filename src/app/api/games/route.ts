@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { mockGamesResponse } from "@/app/data/mockGames";
 
-const useMockData = true;
+const useMockData = false;
 
 export async function GET(request: NextRequest) {
     // if Dev Mode is active, bypass RAWG entirely and return local file. Saves API credits!
@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
     const parent_platforms = searchParams.get('parent_platforms') || '';
     const ordering = searchParams.get('ordering') || '-added';
     const page = searchParams.get('page') || '1';
+    const dates = searchParams.get('dates') || '';
 
     const apiKey = process.env.RAWG_API_KEY;
 
@@ -35,9 +36,11 @@ export async function GET(request: NextRequest) {
     if (parent_platforms) targetUrl.searchParams.append('parent_platforms', parent_platforms);
     if (ordering) targetUrl.searchParams.append('ordering', ordering);
     if (page) targetUrl.searchParams.append('page', page);
+    if (dates) targetUrl.searchParams.append('dates', dates);
 
     try {
         const response = await fetch(targetUrl.toString(), {
+            cache: 'no-store',
             headers: {
                 'User-Agent': 'Gamevault-Dev-Project/1.0',
             },

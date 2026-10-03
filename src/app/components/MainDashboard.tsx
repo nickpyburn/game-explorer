@@ -25,8 +25,19 @@ function MainDashboard() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        console.log("Fetching games with query:", gameQuery);
-        fetchGames({ gameQuery, setLoading, setGames, setError });
+        const loadGames = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                await fetchGames({ gameQuery, setGames });
+            } catch (error) {
+                setError((error as Error).message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        loadGames();
     }, [gameQuery.searchText, JSON.stringify(gameQuery.genres), JSON.stringify(gameQuery.parentPlatforms), gameQuery.sortOrder, gameQuery.page, gameQuery.discoverMode]);
 
     const handleSetCategory = (category: string) => {
