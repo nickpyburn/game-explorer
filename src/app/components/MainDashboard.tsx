@@ -26,7 +26,7 @@ function MainDashboard() {
     const [hasNextPage, setHasNextPage] = useState<boolean>(true);
 
     useEffect(() => {
-        // Debounce search input so request fires 300ms after user stops typing
+        // debounce search input so request fires 300ms after user stops typing
         const handler = setTimeout(async () => {
             try {
                 setLoading(true);
@@ -38,18 +38,10 @@ function MainDashboard() {
                 setLoading(false);
             }
         }, 300);
-
-        // Cleanup function cancels pending timers if user types another letter before 300ms
+        
         return () => clearTimeout(handler);
-
-        // Clean, primitive dependency array tracking
     }, [
-        gameQuery.searchText,
-        gameQuery.genres,
-        gameQuery.parentPlatforms,
-        gameQuery.sortOrder,
-        gameQuery.page,
-        gameQuery.discoverMode
+        gameQuery
     ]);
 
     const handleSetCategory = (category: string) => {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { mockGamesResponse } from "@/app/data/mockGames";
 
-const useMockData = true;
+const useMockData = false;
 
 export async function GET(request: NextRequest) {
 
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
 
     if (search) {
         targetUrl.searchParams.append('search', search);
-        targetUrl.searchParams.append('search_precise', 'true');
+        targetUrl.searchParams.append('search_exact', 'true');
     }
     if (genres) targetUrl.searchParams.append('genres', genres);
     if (parent_platforms) targetUrl.searchParams.append('parent_platforms', parent_platforms);
