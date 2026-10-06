@@ -10,16 +10,23 @@ interface GameCardProps {
 }
 
 function GameCard({ game }: Readonly<GameCardProps>) {
+  const hasValidImage = typeof game.background_image === 'string' && game.background_image.trim().length > 0;
   return (
     <div className={styles.mainDiv}>
       <div className={styles.imageWrapper}>
-        <Image
-          className={styles.gameImage}
-          src={game.background_image}
-          alt={game.name}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-        />
+        {hasValidImage ? (
+          <Image
+            className={styles.gameImage}
+            src={game.background_image}
+            alt={game.name}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          />
+        ) : (
+          <div className="w-100 h-100 bg-secondary d-flex align-items-center justify-content-center">
+            <i className="bi bi-controller text-white-50" style={{ fontSize: '3rem' }}></i>
+          </div>
+        )}
         {Boolean(game.metacritic) && <MetacriticBadge score={game.metacritic} />}
       </div>
 
