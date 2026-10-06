@@ -47,13 +47,31 @@ function MainDashboard() {
     const handleSetCategory = (category: string) => {
         setGameQuery((prevQuery) => {
             if (category === "Home") {
-                return { ...prevQuery, discoverMode: "Home", genres: [], parentPlatforms: [], searchText: "", page: 1 };
+                return { 
+                    ...prevQuery, 
+                    discoverMode: "Home", 
+                    genres: [], 
+                    parentPlatforms: [], 
+                    searchText: "", 
+                    sortOrder: "-added",
+                    page: 1 
+                };
             }
             if (category === "New Releases") {
-                return { ...prevQuery, discoverMode: "NewReleases", page: 1 };
+                return { 
+                    ...prevQuery, 
+                    discoverMode: "NewReleases", 
+                    sortOrder: "-added",
+                    page: 1 
+                };
             }
             if (category === "Best of the Year") {
-                return { ...prevQuery, discoverMode: "BestOfYear", page: 1 };
+                return { 
+                    ...prevQuery, 
+                    discoverMode: "BestOfYear", 
+                    sortOrder: "-metacritic",
+                    page: 1 
+                };
             }
 
             const matchedPlatform = parentPlatforms.find(
