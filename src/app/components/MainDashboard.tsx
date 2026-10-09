@@ -99,6 +99,11 @@ function MainDashboard() {
         });
     };
 
+    const handleGameClicked = (game: Game) => {
+        // TODO implement the logic for when a game is clicked
+        console.log(game.name);
+    };
+
     return (
         <div className={styles.mainGrid}>
             <SideBar gameQuery={gameQuery} onCategorySelected={handleSetCategory} />
@@ -133,7 +138,7 @@ function MainDashboard() {
 
                 {!loading && !error && (
                     <div className="d-flex flex-column flex-grow-1 overflow-hidden">
-                        <GamesDisplay games={games} />
+                        <GamesDisplay games={games} onClick={handleGameClicked} />
                         <div className="d-flex justify-content-center align-items-center gap-4 py-3 mt-auto">
                             <button
                                 className="btn btn-outline-light px-4"

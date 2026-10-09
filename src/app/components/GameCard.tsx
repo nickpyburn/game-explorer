@@ -1,4 +1,3 @@
-import React from 'react'
 import styles from './GameCard.module.css'
 import Image from 'next/image'
 import { Game } from '../types/rawg'
@@ -7,12 +6,13 @@ import { parentPlatforms } from '../lib/ParentPlatforms';
 
 interface GameCardProps {
   game: Game;
+  onClick?: () => void;
 }
 
-function GameCard({ game }: Readonly<GameCardProps>) {
+function GameCard({ game, onClick }: Readonly<GameCardProps>) {
   const hasValidImage = typeof game.background_image === 'string' && game.background_image.trim().length > 0;
   return (
-    <div className={styles.mainDiv}>
+    <button className={styles.mainButton} onClick={onClick}>
       <div className={styles.imageWrapper}>
         {hasValidImage ? (
           <Image
@@ -47,7 +47,7 @@ function GameCard({ game }: Readonly<GameCardProps>) {
           })}
         </div>
       </div>
-    </div>
+    </button>
   )
 }
 

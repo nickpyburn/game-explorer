@@ -3,11 +3,16 @@ import styles from './GamesDisplay.module.css'
 import { Game } from '../types/rawg'
 import GameCard from './GameCard'
 
-function GamesDisplay({ games }: Readonly<{ games: Game[] }>) {
+interface GamesDisplayProps {
+  games: Game[];
+  onClick?: (game: Game) => void;
+} 
+
+function GamesDisplay({ games, onClick }: Readonly<GamesDisplayProps>) {
   return (
     <div className={styles.mainGrid}>
         {games.map((game) => (
-            <GameCard key={game.id} game={game} />
+            <GameCard key={game.id} game={game} onClick={() => onClick?.(game)} />
         ))}
     </div>
   )
