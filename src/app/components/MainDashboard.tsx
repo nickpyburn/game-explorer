@@ -9,6 +9,7 @@ import { parentPlatforms } from '../lib/ParentPlatforms';
 import SideBar from './SideBar';
 import GamesDisplay from './GamesDisplay';
 import SearchAndSortControls from './SearchAndSortControls';
+import GameDetailModal from './GameDetailModal';
 
 function MainDashboard() {
     const [gameQuery, setGameQuery] = useState<GameQuery>({
@@ -21,6 +22,7 @@ function MainDashboard() {
     });
 
     const [games, setGames] = useState<Game[]>([]);
+    const [selectedGame, setSelectedGame] = useState<Game | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [hasNextPage, setHasNextPage] = useState<boolean>(true);
@@ -38,7 +40,7 @@ function MainDashboard() {
                 setLoading(false);
             }
         }, 300);
-        
+
         return () => clearTimeout(handler);
     }, [
         gameQuery
@@ -47,30 +49,30 @@ function MainDashboard() {
     const handleSetCategory = (category: string) => {
         setGameQuery((prevQuery) => {
             if (category === "Home") {
-                return { 
-                    ...prevQuery, 
-                    discoverMode: "Home", 
-                    genres: [], 
-                    parentPlatforms: [], 
-                    searchText: "", 
+                return {
+                    ...prevQuery,
+                    discoverMode: "Home",
+                    genres: [],
+                    parentPlatforms: [],
+                    searchText: "",
                     sortOrder: "-added",
-                    page: 1 
+                    page: 1
                 };
             }
             if (category === "New Releases") {
-                return { 
-                    ...prevQuery, 
-                    discoverMode: "NewReleases", 
+                return {
+                    ...prevQuery,
+                    discoverMode: "NewReleases",
                     sortOrder: "-added",
-                    page: 1 
+                    page: 1
                 };
             }
             if (category === "Best of the Year") {
-                return { 
-                    ...prevQuery, 
-                    discoverMode: "BestOfYear", 
+                return {
+                    ...prevQuery,
+                    discoverMode: "BestOfYear",
                     sortOrder: "-metacritic",
-                    page: 1 
+                    page: 1
                 };
             }
 
@@ -100,8 +102,7 @@ function MainDashboard() {
     };
 
     const handleGameClicked = (game: Game) => {
-        // TODO implement the logic for when a game is clicked
-        console.log(game.name);
+        setSelectedGame(game);
     };
 
     return (
@@ -157,6 +158,12 @@ function MainDashboard() {
                             </button>
                         </div>
                     </div>
+                )}
+                {selectedGame && (
+                    <GameDetailModal
+                        game={selectedGame}
+                        onClose={() => setSelectedGame(null)}
+                    />
                 )}
             </div>
         </div>

@@ -1,0 +1,31 @@
+.mainDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 1050;
+}
+
+.innerDiv {
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.detailsDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}

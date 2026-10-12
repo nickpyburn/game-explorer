@@ -1,30 +1,50 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { mockGamesResponse } from "@/app/data/mockGames";
 
+export const dynamic = 'force-dynamic';
+
 const useMockData = false;
 
 export async function GET(request: NextRequest) {
-
     const { searchParams } = new URL(request.url);
+
     const search = searchParams.get('search') || '';
-
-    // if Dev Mode is active, bypass RAWG entirely and return local file. Saves API credits!
-    if (useMockData) {
-        if (!search) return NextResponse.json(mockGamesResponse); //
-
-        const filteredResults = mockGamesResponse.results.filter(game =>
-            game.name.toLowerCase().includes(search.toLowerCase())
-        );
-        return NextResponse.json({ ...mockGamesResponse, results: filteredResults });
-    }
-
-
     const genres = searchParams.get('genres') || '';
     const parent_platforms = searchParams.get('parent_platforms') || '';
     const ordering = searchParams.get('ordering') || '-added';
     const page = searchParams.get('page') || '1';
     const dates = searchParams.get('dates') || '';
+    
+    if (useMockData) {
+        let filteredResults = [...mockGamesResponse.results];
 
+        if (search) {
+            filteredResults = filteredResults.filter(game =>
+                game.name.toLowerCase().includes(search.toLowerCase())
+            );
+        }
+
+        if (genres) {
+            const genreList = genres.split(',').map(g => g.toLowerCase());
+            filteredResults = filteredResults.filter(game =>
+                game.genres?.some(g => genreList.includes(g.slug.toLowerCase()))
+            );
+        }
+
+        if (parent_platforms) {
+            const platformList = new Set(parent_platforms.split(',').map(Number));
+            filteredResults = filteredResults.filter(game =>
+                game.parent_platforms?.some(p => platformList.has(p.platform.id))
+            );
+        }
+
+        return NextResponse.json({
+            ...mockGamesResponse,
+            count: filteredResults.length,
+            results: filteredResults,
+        });
+    }
+    
     const apiKey = process.env.RAWG_API_KEY;
 
     if (!apiKey) {
@@ -64,7 +84,6 @@ export async function GET(request: NextRequest) {
         }
 
         const data = await response.json();
-
         return NextResponse.json(data);
 
     } catch {
