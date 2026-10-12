@@ -140,7 +140,7 @@ function MainDashboard() {
                 {!loading && !error && (
                     <div className="d-flex flex-column flex-grow-1 overflow-hidden">
                         <GamesDisplay games={games} onClick={handleGameClicked} />
-                        <div className="d-flex justify-content-center align-items-center gap-4 py-3 mt-auto">
+                        { games.length > 0 && <div className="d-flex justify-content-center align-items-center gap-4 py-3 mt-auto">
                             <button
                                 className="btn btn-outline-light px-4"
                                 disabled={gameQuery.page === 1}
@@ -156,7 +156,7 @@ function MainDashboard() {
                             >
                                 Next <i className="bi bi-chevron-right ms-2"></i>
                             </button>
-                        </div>
+                        </div>}
                     </div>
                 )}
                 {selectedGame && (
