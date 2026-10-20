@@ -33,7 +33,9 @@ function MainDashboard() {
             try {
                 setLoading(true);
                 setError(null);
-                await fetchGames({ gameQuery, setGames, setHasNextPage });
+                const { games: fetchedGames, hasNextPage: nextPage } = await fetchGames(gameQuery);
+                setGames(fetchedGames);
+                setHasNextPage(nextPage);
             } catch (err) {
                 setError((err as Error).message);
             } finally {

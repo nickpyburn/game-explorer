@@ -2,20 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { Game } from '../types/rawg';
+import { fetchGameDetails } from '../lib/utils';
 import Image from 'next/image';
 import styles from './GameDetailModal.module.css';
-
-interface DetailedGameData {
-    description_raw?: string;
-    developers?: { id: number; name: string }[];
-    publishers?: { id: number; name: string }[];
-    genres?: { id: number; name: string }[];
-    playtime?: number;
-    esrb_rating?: { id: number; name: string } | null;
-    website?: string;
-    tags?: { id: number; name: string; language: string }[];
-    stores?: { id: number; store: { name: string; domain: string } }[];
-}
 
 interface GameDetailModalProps {
     game: Game;
@@ -23,19 +12,21 @@ interface GameDetailModalProps {
 }
 
 function GameDetailModal({ game, onClose }: Readonly<GameDetailModalProps>) {
-    const [details, setDetails] = useState<DetailedGameData | null>(null);
+    const [details, setDetails] = useState<Game | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    
+
     useEffect(() => {
         let isMounted = true;
 
-        const fetchGameDetails = async () => {
+        const loadDetails = async () => {
             setLoading(true);
+            setDetails(null);
+
             try {
-                const res = await fetch(`/api/games/${game.id}`);
-                if (!res.ok) throw new Error("Failed to fetch details");
-                const data = await res.json();
-                if (isMounted) setDetails(data);
+                const data = await fetchGameDetails(game.id);
+                if (isMounted)
+                    setDetails(data);
+
             } catch (error) {
                 console.error("Error loading extra game details:", error);
             } finally {
@@ -43,13 +34,13 @@ function GameDetailModal({ game, onClose }: Readonly<GameDetailModalProps>) {
             }
         };
 
-        fetchGameDetails();
+        void loadDetails();
 
         return () => {
             isMounted = false;
         };
     }, [game.id]);
-    
+
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {

@@ -17,6 +17,15 @@ export interface Game {
     background_image: string;
     rating: number;
     parent_platforms: ParentPlatform[];
+    description_raw?: string;
+    developers?: { id: number; name: string }[];
+    publishers?: { id: number; name: string }[];
+    genres?: { id: number; name: string }[];
+    playtime?: number;
+    esrb_rating?: { id: number; name: string } | null;
+    website?: string;
+    tags?: { id: number; name: string; language: string }[];
+    stores?: { id: number; store: { name: string; domain: string } }[];
 }
 
 export interface RAWGResponse<T> {

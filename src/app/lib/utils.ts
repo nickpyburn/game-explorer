@@ -20,11 +20,7 @@ const getDiscoverDatesParam = (mode: "Home" | "NewReleases" | "BestOfYear"): str
     return "";
 };
 
-export const fetchGames = async ({ gameQuery, setGames, setHasNextPage }: {
-    gameQuery: GameQuery,
-    setGames: (games: Game[]) => void,
-    setHasNextPage: (hasNext: boolean) => void
-}) => {
+export const fetchGames = async (gameQuery: GameQuery): Promise<{ games: Game[], hasNextPage: boolean }> => {
     const params = new URLSearchParams();
 
     if (gameQuery.searchText) params.append('search', gameQuery.searchText);
@@ -43,7 +39,13 @@ export const fetchGames = async ({ gameQuery, setGames, setHasNextPage }: {
     if (!response.ok) throw new Error(`HTTP error. status: ${response.status}`);
 
     const data = await response.json();
-    setGames(data.results || []);
 
-    setHasNextPage(!!data.next);
+    return { games: data.results || [], hasNextPage: !!data.next };
+};
+
+export const fetchGameDetails = async (id: number): Promise<Game> => {
+    const response = await fetch(`/api/games/${id}`);
+    if (!response.ok) throw new Error(`HTTP error. status: ${response.status}`);
+
+    return response.json();
 };
