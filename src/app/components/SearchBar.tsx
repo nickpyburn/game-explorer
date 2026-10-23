@@ -10,10 +10,12 @@ interface SearchBarProps {
 
 function SearchBar({ searchText, setSearchText }: Readonly<SearchBarProps>) {
   const [inputValue, setInputValue] = useState(searchText);
+  const [previousSearchText, setPreviousSearchText] = useState(searchText);
 
-  useEffect(() => {
+  if (searchText !== previousSearchText) {
+    setPreviousSearchText(searchText);
     setInputValue(searchText);
-  }, [searchText]);
+  }
 
   useEffect(() => {
     if (inputValue === searchText) {

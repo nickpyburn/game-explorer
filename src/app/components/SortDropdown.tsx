@@ -19,8 +19,6 @@ function SortDropdown({ sortOption, onSortChange }: Readonly<SortDropdownProps>)
       <option value="created">Sort by: Creation Date (Ascending)</option>
       <option value="-updated">Sort by: Last Updated (Descending)</option>
       <option value="updated">Sort by: Last Updated (Ascending)</option>
-      <option value="-rating">Sort by: Rating (Descending)</option>
-      <option value="rating">Sort by: Rating (Ascending)</option>
       <option value="-metacritic">Sort by: Metacritic Score (Descending)</option>
       <option value="metacritic">Sort by: Metacritic Score (Ascending)</option>
     </select>

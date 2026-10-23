@@ -7,9 +7,10 @@ import { parentPlatforms } from '../lib/ParentPlatforms';
 interface GameCardProps {
   game: Game;
   onClick?: () => void;
+  priority?: boolean;
 }
 
-function GameCard({ game, onClick }: Readonly<GameCardProps>) {
+function GameCard({ game, onClick, priority = false }: Readonly<GameCardProps>) {
   const hasValidImage = typeof game.background_image === 'string' && game.background_image.trim().length > 0;
   return (
     <button className={styles.mainButton} onClick={onClick}>
@@ -20,6 +21,7 @@ function GameCard({ game, onClick }: Readonly<GameCardProps>) {
             src={game.background_image}
             alt={game.name}
             fill
+            priority={priority}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           />
         ) : (

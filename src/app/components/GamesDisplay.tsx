@@ -11,8 +11,13 @@ interface GamesDisplayProps {
 function GamesDisplay({ games, onClick }: Readonly<GamesDisplayProps>) {
   return (
     <div className={styles.mainGrid}>
-        {games.map((game) => (
-            <GameCard key={game.id} game={game} onClick={() => onClick?.(game)} />
+        {games.map((game, index) => (
+            <GameCard 
+              key={game.id} 
+              game={game} 
+              onClick={() => onClick?.(game)} 
+              priority={index < 4} // eagerly load the first 4 images
+            />
         ))}
     </div>
   )

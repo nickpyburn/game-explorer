@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const apiKey = process.env.RAWG_API_KEY;
 
     if (!apiKey) {
@@ -11,7 +11,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     }
 
     try {
-        const response = await fetch(`https://api.rawg.io/api/games/${params.id}?key=${apiKey}`, {
+        const { id } = await params;
+        const response = await fetch(`https://api.rawg.io/api/games/${id}?key=${apiKey}`, {
             cache: 'no-store',
             headers: {
                 'User-Agent': 'Gamevault-Dev-Project/1.0',

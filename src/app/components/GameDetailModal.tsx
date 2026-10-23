@@ -71,9 +71,14 @@ function GameDetailModal({ game, onClose }: Readonly<GameDetailModalProps>) {
     const hasValidImage = typeof game.background_image === 'string' && game.background_image.trim().length > 0;
 
     return (
-        <div
-            className={styles.mainDiv} onClick={onClose}>
-            <div className={styles.innerDiv} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.mainDiv}>
+            <button
+                type="button"
+                className={styles.backdrop}
+                onClick={onClose}
+                aria-label="Close game details"
+            />
+            <div className={styles.innerDiv}>
                 <div className={styles.detailsDiv}>
                     <div>
                         <h2 className="mb-1 fw-bold">{game.name}</h2>
@@ -97,13 +102,13 @@ function GameDetailModal({ game, onClose }: Readonly<GameDetailModalProps>) {
 
                 {loading ? (
                     <div className="text-center py-4 text-secondary">
-                        <div className="spinner-border text-light mb-2" role="status"></div>
+                        <output className="spinner-border text-light mb-2"></output>
                         <p>Loading game specifications...</p>
                     </div>
                 ) : (
                     <>
                         <div className="d-flex flex-wrap gap-2 mb-4">
-                            {game.metacritic && (
+                            {!!(game.metacritic) && (
                                 <span className="badge bg-success fs-6 p-2">
                                     Metacritic: {game.metacritic}
                                 </span>
