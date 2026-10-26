@@ -1,5 +1,9 @@
 # Game Explorer 🎮
 
+[![Live Demo](https://img.shields.io/badge/Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://game-explorer-taupe.vercel.app)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+
 **Note: This project is a tech demo.** It serves as a responsive, high-performance video game discovery web application built to showcase modern web development practices using Next.js, TypeScript, and Bootstrap. It is powered by the [RAWG Video Games Database API](https://rawg.io/apidocs).
 
 ## ✨ Features
