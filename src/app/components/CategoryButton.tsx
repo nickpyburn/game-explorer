@@ -4,15 +4,15 @@ import React from 'react'
 
 interface CategoryButtonProps {
     category: string;
-    iconImagePath: string;
+    ImageClass?: string;
     onClick?: (category: string) => void;
     isSelected?: boolean;
 }
 
-function CategoryButton({ category, iconImagePath, onClick, isSelected }: Readonly<CategoryButtonProps>) {
+function CategoryButton({ category, ImageClass, onClick, isSelected }: Readonly<CategoryButtonProps>) {
     return (
         <button className={`${styles.mainButton} ${isSelected ? styles.selected : styles.unselected}`} onClick={() => onClick?.(category)}>
-            <Image src={iconImagePath} alt={category} width={24} height={24} />
+            <i className={`${ImageClass} ${styles.imageClass}`}></i>
             <p className={styles.categoryText}>{category}</p>
         </button>
     )

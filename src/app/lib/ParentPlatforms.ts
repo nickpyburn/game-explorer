@@ -5,7 +5,7 @@ export const parentPlatforms = [
     { id: 4, name: 'iOS', slug: 'ios', icon: 'bi bi-apple' },
     { id: 5, name: 'Apple Macintosh', slug: 'mac', icon: 'bi bi-apple' },
     { id: 6, name: 'Linux', slug: 'linux', icon: 'bi bi-ubuntu' },
-    { id: 7, name: 'Nintendo', slug: 'nintendo', icon: 'bi bi-nintendo-switch' },
+    { id: 7, name: 'Nintendo', slug: 'nintendo', icon: 'bi bi-dpad-fill' },
     { id: 8, name: 'Android', slug: 'android', icon: 'bi bi-android2' },
     { id: 9, name: 'Atari', slug: 'atari', icon: 'bi bi-controller' },
     { id: 10, name: 'Commodore / Amiga', slug: 'commodore-amiga', icon: 'bi bi-cpu' },
